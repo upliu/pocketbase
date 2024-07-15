@@ -23,21 +23,21 @@ func (dao *Dao) SyncRecordTableSchema(newCollection *models.Collection, oldColle
 		// -----------------------------------------------------------
 		if oldCollection == nil {
 			cols := map[string]string{
-				schema.FieldNameId:      "TEXT PRIMARY KEY DEFAULT ('r'||lower(hex(randomblob(7)))) NOT NULL",
-				schema.FieldNameCreated: "TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL",
-				schema.FieldNameUpdated: "TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL",
+				schema.FieldNameId:      "TEXT PRIMARY KEY DEFAULT (concat('r', lower(encode(hash('sha1', random()::text)::bytea, 'hex')))) NOT NULL",
+				schema.FieldNameCreated: "TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL",
+				schema.FieldNameUpdated: "TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL",
 			}
 
 			if newCollection.IsAuth() {
 				cols[schema.FieldNameUsername] = "TEXT NOT NULL"
-				cols[schema.FieldNameEmail] = "TEXT DEFAULT '' NOT NULL"
+				cols[schema.FieldNameEmail] = "VARCHAR(255) DEFAULT '' NOT NULL"
 				cols[schema.FieldNameEmailVisibility] = "BOOLEAN DEFAULT FALSE NOT NULL"
 				cols[schema.FieldNameVerified] = "BOOLEAN DEFAULT FALSE NOT NULL"
 				cols[schema.FieldNameTokenKey] = "TEXT NOT NULL"
 				cols[schema.FieldNamePasswordHash] = "TEXT NOT NULL"
-				cols[schema.FieldNameLastResetSentAt] = "TEXT DEFAULT '' NOT NULL"
-				cols[schema.FieldNameLastVerificationSentAt] = "TEXT DEFAULT '' NOT NULL"
-				cols[schema.FieldNameLastLoginAlertSentAt] = "TEXT DEFAULT '' NOT NULL"
+				cols[schema.FieldNameLastResetSentAt] = "VARCHAR(255) DEFAULT '' NOT NULL"
+				cols[schema.FieldNameLastVerificationSentAt] = "VARCHAR(255) DEFAULT '' NOT NULL"
+				cols[schema.FieldNameLastLoginAlertSentAt] = "VARCHAR(255) DEFAULT '' NOT NULL"
 			}
 
 			// ensure that the new collection has an id

@@ -14,10 +14,10 @@ func init() {
 			CREATE TABLE {{_logs}} (
 				[[id]]      TEXT PRIMARY KEY DEFAULT ('r'||lower(hex(randomblob(7)))) NOT NULL,
 				[[level]]   INTEGER DEFAULT 0 NOT NULL,
-				[[message]] TEXT DEFAULT "" NOT NULL,
-				[[data]]    JSON DEFAULT "{}" NOT NULL,
-				[[created]] TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL,
-				[[updated]] TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL
+				[[message]] TIMESTAMP,
+				[[data]]    JSON DEFAULT '{}' NOT NULL,
+				[[created]] TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+				[[updated]] TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 			);
 
 			CREATE INDEX _logs_level_idx on {{_logs}} ([[level]]);
@@ -34,16 +34,16 @@ func init() {
 		_, err := db.NewQuery(`
 			CREATE TABLE {{_requests}} (
 				[[id]]        TEXT PRIMARY KEY NOT NULL,
-				[[url]]       TEXT DEFAULT "" NOT NULL,
-				[[method]]    TEXT DEFAULT "get" NOT NULL,
+				[[url]]       TIMESTAMP,
+				[[method]]    VARCHAR(255) DEFAULT 'get' NOT NULL,
 				[[status]]    INTEGER DEFAULT 200 NOT NULL,
-				[[auth]]      TEXT DEFAULT "guest" NOT NULL,
-				[[ip]]        TEXT DEFAULT "127.0.0.1" NOT NULL,
-				[[referer]]   TEXT DEFAULT "" NOT NULL,
-				[[userAgent]] TEXT DEFAULT "" NOT NULL,
-				[[meta]]      JSON DEFAULT "{}" NOT NULL,
-				[[created]]   TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL,
-				[[updated]]   TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL
+				[[auth]]      VARCHAR(255) DEFAULT 'guest' NOT NULL,
+				[[ip]]        VARCHAR(255) DEFAULT '127.0.0.1' NOT NULL,
+				[[referer]]   TIMESTAMP,
+				[[userAgent]] TIMESTAMP,
+				[[meta]]      JSON DEFAULT '{}' NOT NULL,
+				[[created]]   TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+				[[updated]]   TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 			);
 
 			CREATE INDEX _request_status_idx on {{_requests}} ([[status]]);

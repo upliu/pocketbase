@@ -1,7 +1,7 @@
 package core
 
 import (
-	_ "github.com/jackc/pgx/v5"
+	_ "github.com/lib/pq"
 	"github.com/pocketbase/dbx"
 	"os"
 )
@@ -9,7 +9,7 @@ import (
 func connectDB(dbPath string) (*dbx.DB, error) {
 	dsn := os.Getenv("DB_DSN")
 	if dsn == "" {
-		dsn = "root@(localhost)/test?charset=utf8&parseTime=True&loc=Local"
+		dsn = "postgres://liu@localhost/test?sslmode=disable"
 	}
 	db, err := dbx.Open("postgres", dsn)
 	return db, err

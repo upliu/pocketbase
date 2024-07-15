@@ -160,7 +160,7 @@ func (f *SchemaField) ColDefinition() string {
 			return "JSON DEFAULT '[]' NOT NULL"
 		}
 
-		return "TEXT DEFAULT '' NOT NULL"
+		return "VARCHAR(255) DEFAULT '' NOT NULL"
 	}
 }
 

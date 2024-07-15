@@ -32,7 +32,7 @@ func init() {
 				continue // already inserted
 			}
 
-			_, err = db.AddColumn(c.Name, schema.FieldNameLastLoginAlertSentAt, "TEXT DEFAULT '' NOT NULL").Execute()
+			_, err = db.AddColumn(c.Name, schema.FieldNameLastLoginAlertSentAt, "VARCHAR(255) DEFAULT '' NOT NULL").Execute()
 			if err != nil {
 				return err
 			}

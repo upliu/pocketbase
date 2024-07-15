@@ -52,7 +52,7 @@ func init() {
 		}
 
 		if !hasIndexesColumn {
-			if _, err := db.AddColumn("_collections", "indexes", `JSON DEFAULT "[]" NOT NULL`).Execute(); err != nil {
+			if _, err := db.AddColumn("_collections", "indexes", `JSON DEFAULT '[]' NOT NULL`).Execute(); err != nil {
 				return err
 			}
 		}
