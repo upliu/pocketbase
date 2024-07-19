@@ -9,7 +9,7 @@ import (
 func connectDB(dbPath string) (*dbx.DB, error) {
 	dsn := os.Getenv("DB_DSN")
 	if dsn == "" {
-		dsn = "root@(localhost)/test?charset=utf8&parseTime=True&loc=Local"
+		dsn = "root@(localhost)/pocketbase?charset=utf8&parseTime=True&loc=Local"
 	}
 	db, err := dbx.Open("mysql", dsn)
 	return db, err
